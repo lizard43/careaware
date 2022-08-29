@@ -1,1 +1,2 @@
-# careaware
+# Care Aware
+Archive of a ~2000 prototype for a county hospital. This was targeted for Internet Explorer 4 (IE4) which at the time allowed the use of ActiveX controls (OCX) files embedded in the webpage.

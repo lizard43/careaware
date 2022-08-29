@@ -1,0 +1,150 @@
+<html>
+
+<head>
+<title>CareAware - Preferences</title>
+</head>
+
+<body background=speckle.gif bgcolor="#e5e5e5" style="MARGIN: 0px; PADDING-BOTTOM: 2px; PADDING-LEFT: 2px; PADDING-RIGHT: 2px; PADDING-TOP: 2px; WIDTH: 100%">
+
+<A NAME="top"></A><!-- Start: ToolBar V2.0-->
+<script language="JavaScript" src="toolbar.js"></script>
+<script language="JavaScript" src="global.js"></script>
+
+<script language="JavaScript"><!--//
+var ToolBar_Supported = ToolBar_Supported;
+if (ToolBar_Supported != null && ToolBar_Supported == true)
+{
+	setDefaultICPMenuColor("Darkblue", "Ghostwhite", "#FF3300");
+	setToolbarBGColor("white");
+	setICPBanner("careawar.jpg","","CareAware");
+}
+//--></script>
+<script language="JavaScript" src="local.js"></script>
+<script language="JavaScript"><!--//
+if (ToolBar_Supported != null && ToolBar_Supported == true)
+{
+	drawToolbar();
+}
+//--></script>
+<!-- End: ToolBar V2.0-->
+
+<SCRIPT LANGUAGE=VBSCRIPT>
+
+sub Window_onLoad()
+	
+	on error resume next
+	
+	' get preferences from registry
+	DRegEdit1.hKey = 2  ' reHKEY_LOCAL_MACHINE	
+	DRegEdit1.SubKeyPath = "Software\LLC\CareAware\RadiologyReport"
+	
+	' Report folder
+	DRegEdit1.ValueType = 1  ' reStringType
+	DRegEdit1.ValueName = "SaveReportFolder"
+	DRegEdit1.ReadValue
+	
+	document.all.RadiologyReportFolder.Value = DRegEdit1.Value
+	
+	' Patient db path
+	DRegEdit1.ValueName = "PatientDbFolder"
+	DRegEdit1.ReadValue
+	document.all.PatientDbFolder.Value = DRegEdit1.Value
+	
+	if Err then
+		msgbox "An Error Occurred While Retrieving Preferences."
+		Err.Clear	
+	end if
+end sub
+
+sub SetChangeFlag
+end sub
+
+sub OnSave
+
+	on error resume next
+	
+	' set preferences to registry
+	DRegEdit1.hKey = 2  ' reHKEY_LOCAL_MACHINE	
+	DRegEdit1.SubKeyPath = "Software\LLC\CareAware\RadiologyReport"
+	
+	' Report folder
+	DRegEdit1.ValueType = 1  ' reStringType
+	DRegEdit1.ValueName = "SaveReportFolder"	
+	DRegEdit1.Value = document.all.RadiologyReportFolder.Value
+	DRegEdit1.WriteValue 1 ' reOpenAndCreate
+	
+	' Patient db path
+	DRegEdit1.ValueName = "PatientDbFolder"
+	DRegEdit1.Value = document.all.PatientDbFolder.Value
+	DRegEdit1.WriteValue 1 ' reOpenAndCreate
+	
+	if Err then
+		msgbox "An Error Occurred While Saving Preferences."
+	else
+		msgbox "Preferences Saved"
+	end if
+	
+	Err.Clear	
+		
+end sub
+
+
+</SCRIPT>
+
+<form id=form1 name=form1>
+
+  <TABLE align=center border=0 cellPadding=3 cellSpacing=1 width="80%" background="gray.gif" style="WIDTH: 100%">
+    <TBODY>
+    
+    <TR>
+      <TD align=left>
+        <P align=left><FONT color=#0066cc size=6 
+        face="Arial Black"><STRONG>&nbsp;Preferences</FONT> </STRONG><FONT face="Arial Black"> 
+  </FONT></P></TD>
+      </TR></TBODY></TABLE>
+
+<P>&nbsp;</P>
+<P>&nbsp;</P>
+
+<table align="center" border="0" CELLSPACING=3 CELLPADDING=%3 WIDTH="80%" style=POSITION: relative; TOP: 5%">
+    <tr>
+        <td><STRONG><FONT face="MS Sans Serif" 
+      size=2>Radiology Report Folder: </FONT></STRONG></td>
+        <td align="right"><INPUT ID=RadiologyReportFolder SIZE=80 MAXLENGTH=120 onchange="SetChangeFlag()" ></td>
+        <td><P>&nbsp;</P></td>
+    </tr>
+
+    <tr>
+        <td> <P>&nbsp;</P></td>
+        <td> <P>&nbsp;</P></td>
+        <td> <P>&nbsp;</P></td>
+    </tr>
+        
+    <tr>   
+        <td><STRONG><FONT face="MS Sans Serif" size=2>Patient Database Folder: </FONT></STRONG>   </td>
+        <td align="right"><INPUT ID=PatientDbFolder SIZE=80 MAXLENGTH=120 onchange="SetChangeFlag()" ></td>
+        <td><P>&nbsp;</P></td>
+    </tr>
+        
+    <tr>
+        <td> <P>&nbsp;</P></td>
+        <td> <P>&nbsp;</P></td>
+        <td> <P>&nbsp;</P></td>
+    </tr>
+    
+    <tr>
+        <td> <P>&nbsp;</P></td>
+      <td align="right"><P><FONT color=#000000 face="Arial Narrow" size=3><INPUT id=Save onkeydown=OnSave() onmouseup=OnSave() size=35 style="FONT-FAMILY: sans-serif; FONT-SIZE: small; FONT-WEIGHT: bold; HEIGHT: 26px; WIDTH: 94px" type=button value=Save></FONT></P></td>
+    </tr>
+                
+</table>
+</form>
+<P>
+</P>
+<P>
+<OBJECT classid=clsid:5C089EAC-D0C1-11D2-9FFF-006097811292 id=DRegEdit1 
+style="LEFT: 0px; TOP: 0px" VIEWASTEXT><PARAM NAME="_Version" VALUE="131074"><PARAM NAME="_ExtentX" VALUE="1058"><PARAM NAME="_ExtentY" VALUE="1058"><PARAM NAME="_StockProps" VALUE="0"></OBJECT>
+</P>
+
+</body>
+</html>
